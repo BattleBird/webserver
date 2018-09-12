@@ -1,5 +1,8 @@
 #import socket module
-from socket import *
+#pylint: disable-msg = E1101
+from socket import socket
+from socket import AF_INET
+from socket import SOCK_STREAM
 serverSocket = socket(AF_INET, SOCK_STREAM) 
 #Prepare a sever socket 
 serverSocket.bind(('', 6789)) # 将TCP欢迎套接字绑定到指定端口
@@ -13,7 +16,7 @@ while True:
 		message = connectionSocket.recv(1024) # 获取客户发送的报文
 		filename = message.split()[1]
 		f = open(filename[1:])
-		outputdata = f.read();
+		outputdata = f.read()
 		#Send one HTTP header line into socket
 		header = ' HTTP/1.1 200 OK\nConnection: close\nContent-Type: text/html\nContent-Length: %d\n\n' % (len(outputdata))
 		connectionSocket.send(header.encode())
@@ -28,4 +31,5 @@ while True:
 		connectionSocket.send(header.encode())
 		
 		#Close client socket
-		connect
+		connectionSocket.close()
+serverSocket.close()
